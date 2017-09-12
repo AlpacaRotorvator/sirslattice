@@ -11,11 +11,12 @@ public:
     vector< vector<T> > mat;
 
     pmatrix (unsigned h, unsigned w, T init) {
-	                    mat = vector< vector<T> > (h);
-			    for (unsigned i = 0; i < h; i++) {
-				mat[i] = vector <T> (w, init);
-			    }
+	mat = vector< vector<T> > (h);
+	for (unsigned i = 0; i < h; i++) {
+	    mat[i] = vector <T> (w, init);
+	}
     }
+    
     pmatrix(unsigned l, T init): pmatrix(l, l, init) {};
 
     T at (int, int);
