@@ -7,7 +7,7 @@ using namespace std;
 mt19937 sirs::prng = mt19937(time(NULL));
 uniform_real_distribution<double> sirs::dist_test = uniform_real_distribution<double> (0,1);
 
-sirs::sirs (unsigned dim, double t, int mode): lattice(pmatrix<int> (dim, 1)), it(0), l(dim) {  
+sirs::sirs (unsigned dim, double a, double b, double c, double frac): lattice(pmatrix<int> (dim, 1)), it(0), l(dim), a(a), b(b), c(c) {  
 	dist_draw = uniform_int_distribution<int> (0, l-1);
 
 	init_random(frac);
@@ -20,12 +20,12 @@ void sirs::step () {
     int x = dist_draw(prng);
     int y = dist_draw(prng);
 
-    double rand_test = dist_test();
+    double rand_test = dist_test(prng);
 
     switch(lattice.mat[x][y]) {
     case -1:
 	if (rand_test < c){
-		mat[x][y] = 0;
+		lattice.mat[x][y] = 0;
 		num_R++;
 		num_I--;
 	}
@@ -35,13 +35,13 @@ void sirs::step () {
     case 1:
     {
 	int ngbCount = 0;
-	if (lattice.mat.at(x + 1, y) == 0){ ngbCount++;}  
-	if (lattice.mat.at(x - 1, y) == 0){ ngbCount++;}  
-	if (lattice.mat.at(x, y + 1) == 0){ ngbCount++;}
-	if (lattice.mat.at(x, y - 1) == 0){ ngbCount++;}
+	if (lattice.at(x + 1, y) == 0){ ngbCount++;}  
+	if (lattice.at(x - 1, y) == 0){ ngbCount++;}  
+	if (lattice.at(x, y + 1) == 0){ ngbCount++;}
+	if (lattice.at(x, y - 1) == 0){ ngbCount++;}
 
 	if (rand_test < ngbCount * b / 4) {
-	    mat[x][y] = -1;
+	    lattice.mat[x][y] = -1;
 	    num_I++;
 	    num_S--;
 	}
@@ -51,7 +51,7 @@ void sirs::step () {
     
     case 0:
 	if (rand_test < a) {
-	    mat[x][y]  = 1;
+	    lattice.mat[x][y]  = 1;
 	    num_S++;
 	    num_R--;
 	}

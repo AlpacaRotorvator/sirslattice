@@ -39,10 +39,15 @@ private:
     static uniform_real_distribution<double> dist_test;
     uniform_int_distribution<int> dist_draw;
     
-
+    //Contagem de indivíduos
     int num_S = 0;
     int num_I = 0;
     int num_R = 0;
+
+    //Probabilidades de transição
+    double a;
+    double b;
+    double c;
     
     //função de inicialização do reticulado
     void init_random(float);
