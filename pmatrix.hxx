@@ -1,4 +1,7 @@
-//pmatrix.hxx matriz com condições periódicas de contorno
+//pmatrix: matriz com condiÃ§Ãµes periÃ³dicas de contorno
+#ifndef PMATRIX_H
+#define PMATRIX_H
+
 #include <vector>
 using namespace std;
 
@@ -20,3 +23,5 @@ public:
 };
 
 template class pmatrix<int>;
+
+#endif
