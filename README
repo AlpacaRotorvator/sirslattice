@@ -1,0 +1,51 @@
+* Conteúdo:
+** pmatrix.hxx e pmatrix.cxx:
+Implementam uma classe de matriz com condições periódicas de contorno, útil para
+simulações em reticulados como esta.
+
+** sirs.hxx e sirs.cxx:
+Implementam a simulação do modelo SIRS em reticulado via monte carlo.
+
+** test.cxx
+Um exemplo de uso da classe do modelo SIRS. Realiza a simulação com parâmetros
+fixos e gera um arquivo 'output.csv' com os dados da evolução das populações
+de indivíduos suscetíveis, infectados e removidos ao longo do tempo.
+
+** postprocess.py
+Script em python que lê as séries temporais de um arquivo 'output.csv',
+as plota, bem como as correlações e autocorrelações entre as populações.
+
+* Compilação:
+make
+
+* Uso:
+./test
+
+* Descrição:
+O modelo SIRS é um modelo de propagação de epidemias que pode ser simulado em
+um reticulado.
+
+Em uma simulação cada sítio do reticulado é ocupado por um indivíduo que pode
+ser (S)uscetível, (I)nfectado ou (R)emovido. Enquanto as transições I -> R e
+R -> S são espontâneas com probabilidades de transição fixas, a transição S -> I
+é autocatalítica, proporcional ao número de primeiros vizinhos infectados e
+inviável em sua ausência.
+
+A simulação é realizada da seguinte forma:
+1- A cada iteração um sítio do reticulado é escolhido ao acaso.
+2- Caso o sítio escolhido seja:
+2.1- S: o sítio pode transicionar para I com probabilidade b*n/4, onde n é o
+     	número de primeiros vizinhos infectados.	   
+2.2- I: o sítio pode transicionar para R com probabilidade c.
+2.3- R: o sítio pode transicionar para S com probabilidade a.
+
+Onde a, b e c são parâmetros ajustáveis.
+
+De acordo com a escolha de a, b e c o modelo assume uma fase de coexistência
+entre as populações dos três estados possíveis e uma fase de absorção, onde a
+infecção é eventualmente extinta(independente da condição inicial).
+
+No exemplo disponibilizado aqui os parâmetros foram escolhidos dentro da fase
+absorvente mas próximos à região de transição, de forma que nem sempre a
+infecção é extinta nas 2.5e5 iterações realizadas e oscilações consideráveis
+podem ser observadas nas populações(ver imagem "exemplo.png" incluída)
