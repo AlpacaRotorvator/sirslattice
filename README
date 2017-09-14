@@ -8,8 +8,9 @@ Implementam a simulação do modelo SIRS em reticulado via monte carlo.
 
 ** test.cxx
 Um exemplo de uso da classe do modelo SIRS. Realiza a simulação com parâmetros
-fixos e gera um arquivo 'output.csv' com os dados da evolução das populações
-de indivíduos suscetíveis, infectados e removidos ao longo do tempo.
+fixos, imprime na tela o estado do reticulado e populações iniciais e finais e
+gera um arquivo 'output.csv' com os dados da evolução das populações de
+indivíduos suscetíveis, infectados e removidos ao longo do tempo.
 
 ** postprocess.py
 Script em python que lê as séries temporais de um arquivo 'output.csv',
