@@ -9,21 +9,21 @@ using namespace std;
 
 class sirs {
 public:
-    //matriz periódica para o reticulado
-    pmatrix<int> lattice;
-    //contador de iterações
-    int it;
-
 
     //funções para evoluir o sistema no tempo em um instante e até um instante passado por argumento, respectivamente
-    void step();
+    int step();
     void run_until(int);
 
+    //getters para algumas variáveis:
+    int get_S() {return num_S;}
+    int get_I() {return num_I;}
+    int get_R() {return num_R;}
+    int get_it() {return it;}
+
     //imprime o estado do reticulado na tela, porque por que não?
-    //spins para cima são representados por "o", spins para baixo por "x"
     void print_lattice ();
 
-    //Construtor final. Recebe 3 argumentos:
+    //Construtor, recebe 3 argumentos:
     //dim : lado do reticulado quadrado
     //a   : taxa de transição R -> S
     //b   : taxa de transição S -> I
@@ -34,10 +34,16 @@ public:
 private:
     //manter uma variável para o tamanho do reticulado ajuda a manter o código limpo
     int l;
+    
     //um gerador de números aleatórios, uma distribuição para os testes de transição e outra para selecionar o sítio a ser alterado
     static mt19937 prng;
     static uniform_real_distribution<double> dist_test;
     uniform_int_distribution<int> dist_draw;
+
+    //matriz periódica para o reticulado
+    pmatrix<int> lattice;
+    //contador de iterações
+    int it;
     
     //Contagem de indivíduos
     int num_S = 0;

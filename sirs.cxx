@@ -13,7 +13,12 @@ sirs::sirs (unsigned dim, double a, double b, double c, double frac): lattice(pm
 	init_random(frac);
 }
 
-void sirs::step () {
+int sirs::step () {
+    if (num_I == 0 || num_I == l*l) {
+	cout << "\tEstado absorvente encontrado, nada a ser feito\n";
+	return 0;
+    }
+    
     it++;
     
     //sorteia o sítio a ser invertido
@@ -35,10 +40,10 @@ void sirs::step () {
     case 1:
     {
 	int ngbCount = 0;
-	if (lattice.at(x + 1, y) == 0){ ngbCount++;}  
-	if (lattice.at(x - 1, y) == 0){ ngbCount++;}  
-	if (lattice.at(x, y + 1) == 0){ ngbCount++;}
-	if (lattice.at(x, y - 1) == 0){ ngbCount++;}
+	if (lattice.at(x + 1, y) == -1){ ngbCount++;}  
+	if (lattice.at(x - 1, y) == -1){ ngbCount++;}  
+	if (lattice.at(x, y + 1) == -1){ ngbCount++;}
+	if (lattice.at(x, y - 1) == -1){ ngbCount++;}
 
 	if (rand_test < ngbCount * b / 4) {
 	    lattice.mat[x][y] = -1;
@@ -57,12 +62,16 @@ void sirs::step () {
 	}
 
 	break;
-    } 
+    }
+
+    return 1;
 }
 
 void sirs::run_until (int t_f) {
     while (it < t_f) {
-	step();
+	int sim_status = step();
+
+	if (!sim_status) {break;}
     }
 }
 
